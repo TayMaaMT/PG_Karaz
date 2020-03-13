@@ -8,7 +8,6 @@ let host = "";
 
 router.get('/Send', verification, async function(req, res) {
     try {
-        console.log(req.user.email);
         if (req.user.email) {
             res.redirect('SendEmail')
         } else if (req.user.phone) {
