@@ -7,7 +7,7 @@ const FacebookOption = {
     //option of the faceboook strategy 
     clientID: process.env.FACEBOOK_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-    callbackURL: 'http://karaz5.herokuapp.com/api/user/facebook/redirect',
+    callbackURL: 'http://karaz6.herokuapp.com/api/user/facebook/redirect',
     profileFields: ["id", "displayName", "email", "gender"],
     proxy: true
 }
@@ -16,7 +16,7 @@ const googleOption = {
     //option of the google strategy 
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: '/user/google/redirect',
+    callbackURL: 'api/user/google/redirect',
     profileFields: ["id", "displayName", "email", "phones"],
     proxy: true
 }
