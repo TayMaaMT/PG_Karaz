@@ -8,7 +8,12 @@ let host = "";
 
 router.get('/Send', verification, async function(req, res) {
     try {
-        user.req.email ? res.redirect('api/verifyAccount/SendEmail') : res.redirect('api/verifyAccount/SendSMS');
+        console.log(req.user.email);
+        if (req.user.email) {
+            res.redirect('SendEmail')
+        } else if (req.user.phone) {
+            res.redirect('SendSMS');
+        }
 
     } catch (err) {
         res.status(400).json({ Error: err });

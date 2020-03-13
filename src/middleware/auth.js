@@ -29,7 +29,6 @@ const verification = async(req, res, next) => {
 
         const token = req.header('Authorization').replace('Bearer ', '');
         const user = await verifyAuthToken(token);
-        console.log(user);
         if (!user) {
             throw new Error();
         } else if (!user.is_verified) {
