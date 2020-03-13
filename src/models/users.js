@@ -19,6 +19,15 @@ const creat = async(table, user) => {
     }
 }
 
+const getvisitors = async() => {
+    try {
+        const { rows } = await db.query('SELECT * FROM users_logs ')
+        return rows;
+    } catch (err) {
+        throw err.detail;
+    }
+
+}
 
 
 const getusers = async() => {
@@ -112,5 +121,6 @@ module.exports = {
     findByCredentials,
     verifyAuthToken,
     update,
-    findOne
+    findOne,
+    getvisitors
 }

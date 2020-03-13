@@ -140,4 +140,41 @@ router.post('/chart', async(req, res) => {
 
 })
 
+router.get('/visits', async(req, res) => {
+    try {
+        const visitor = await db.query(`SELECT count(*) FROM users_logs Where user_id is null`)
+        const visits = await db.query('SELECT count(*) FROM users_logs ')
+        const users = visits.rows[0].count - visitor.rows[0].count;
+        res.send({
+            visits: visits.rows[0].count,
+            visitor: visitor.rows[0].count,
+            users: users
+        })
+    } catch (err) {
+        res.send(err);
+    }
+
+})
+
+router.get('/sigupType', async(req, res) => {
+    try {
+        const email = await db.query(`SELECT count(*) FROM users Where email is not null AND password is not null`)
+        const phone = await db.query(`SELECT count(*) FROM users Where phone is not null`)
+        const google = await db.query(`SELECT count(*) FROM users Where google_id is not null `)
+        const facebook = await db.query(`SELECT count(*) FROM users Where fb_id is not null `)
+
+        res.send({
+            email: email.rows[0].count,
+            phone: phone.rows[0].count,
+            google: google.rows[0].count,
+            facebook: facebook.rows[0].count
+        })
+    } catch (err) {
+        res.send(err);
+    }
+
+})
+
+
+
 module.exports = router;

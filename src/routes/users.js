@@ -1,18 +1,30 @@
 const router = require('express').Router();
 const db = require('../config/db');
-const { auth } = require('../middleware/auth');
+const { auth, visitor } = require('../middleware/auth');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
-const { creat, getusers, findOneUser, genarateAuthToken, findByCredentials, findOne } = require('../models/users');
+const { getCallerIP } = require('../config/use');
+const { creat, getvisitors, getusers, findOneUser, genarateAuthToken, findByCredentials } = require('../models/users');
 require('dotenv').config();
 router.get('/signup', (req, res) => {
     res.send('sign up  page');
 })
 
+router.get('/visit', visitor, async(req, res) => {
+    try {
+        const ip = '192.168.1.12';
+        const login_date = new Date();
+        const user_id = req.id;
+        await creat('users_logs', { login_date, ip, user_id });
+        res.status(200).json({ success: 'save visite' });
+    } catch (err) {
+        res.send(err);
+    }
+})
+
 router.get('/visitor', async(req, res) => {
-    const users = await getusers();
-    console.log(users);
-    res.send(users)
+    const visitors = await getvisitors();
+    res.send(visitors)
 })
 
 

@@ -1,5 +1,8 @@
 const { verifyAuthToken } = require('../models/users');
 const { User } = require('../config/use');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 
 
 
@@ -46,5 +49,24 @@ const verification = async(req, res, next) => {
 
 }
 
+const visitor = (req, res, next) => {
 
-module.exports = { auth, verification };
+
+    try {
+        const token = req.header('Authorization').replace('Bearer ', '');
+        const deacode = jwt.verify(token, process.env.TOKEN_KEY);
+        if (!deacode) {
+            next();
+        } else {
+            req.id = deacode.id;
+            console.log(req.id);
+            next();
+        }
+    } catch (err) {
+        next();
+    }
+
+}
+
+
+module.exports = { auth, verification, visitor };

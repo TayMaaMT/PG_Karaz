@@ -51,7 +51,7 @@ router.get('/sendEmail', verification, async function(req, res) {
         const random = GenarateRandom();
         await update('users', req.user, { verification_code: random });
         host = req.get('host');
-        const link = "http://" + req.get('host') + "/verifyAccount/verify?User_ID=" + req.user.id + "&code=" + random;
+        const link = "http://" + req.get('host') + "/api/verifyAccount/verify?User_ID=" + req.user.id + "&code=" + random;
         const mailOptions = {
             to: req.user.email,
             subject: "Please confirm your Email account",
