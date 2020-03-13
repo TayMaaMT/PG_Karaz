@@ -16,7 +16,7 @@ const googleOption = {
     //option of the google strategy 
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: 'api/user/google/redirect',
+    callbackURL: 'http://karaz6.herokuapp.com/api/user/google/redirect',
     profileFields: ["id", "displayName", "email", "phones"],
     proxy: true
 }
