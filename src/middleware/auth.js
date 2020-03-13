@@ -30,7 +30,7 @@ const verification = async(req, res, next) => {
         const token = req.header('Authorization').replace('Bearer ', '');
         const user = await verifyAuthToken(token);
         if (!user) {
-            throw new Error();
+            throw "please authanticate"
         } else if (!user.is_verified) {
             req.token = token;
             const returnUser = new User(user);
@@ -41,7 +41,7 @@ const verification = async(req, res, next) => {
         }
 
     } catch (err) {
-        res.status(500).send("Error :please authanticate");
+        throw "please authanticate"
     }
 
 }
