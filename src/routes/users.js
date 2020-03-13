@@ -47,7 +47,7 @@ router.post('/signup', async(req, res) => {
     try {
         const { name, email, phone, password } = req.body;
         const hashPassword = await bcrypt.hash(password, 8);
-        const reg_date = new Date('2020-01-29');
+        const reg_date = new Date();
         const user_id = await creat('users', { name, email, phone, password: hashPassword, reg_date });
         const token = genarateAuthToken(user_id);
         res.status(200).json({ token: token });
