@@ -37,7 +37,7 @@ const verification = async(req, res, next) => {
             req.user = returnUser.data;
             next();
         } else {
-            res.status(200).json({ sucess: "your email is verified " });
+            res.status(201).json({ sucess: "your email is verified " });
         }
 
     } catch (err) {
