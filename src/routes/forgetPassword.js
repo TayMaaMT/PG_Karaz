@@ -44,7 +44,7 @@ router.post('/SendSMS', async function(req, res) {
     try {
         const user = await findOne('users', { phone: req.body.phone });
         const random = GenarateRandom();
-        await updateUsers('users', user, { verification_code: random });
+        await update('users', user, { verification_code: random });
         let text = "code to reset password ( " + random + " )";
         nexmo.message.sendSms("Nexmo", user.phone, text, { type: "unicode" }, (err, responseData) => {
             if (err) {
