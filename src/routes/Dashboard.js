@@ -7,19 +7,17 @@ const getdate = (datetime, type, i = 1) => {
     if (type == 'day') {
         const newDate = new Date(timeZone.setDate((timeZone.getDate() + i)));
         var date = newDate.getFullYear() + '-' + (("0" + (newDate.getMonth() + 1)).slice(-2)) + '-' + (newDate.getDate());
-        console.log(date);
+
     } else if (type == 'month') {
         if ((("0" + (timeZone.getMonth() + i)).slice(-2)) >= '12') {
             let count = (timeZone.getMonth() + i) - '11'
             var date = (timeZone.getFullYear() + 1) + '-' + (("0" + count).slice(-2)) + '-' + '1';
-            console.log(date);
         } else {
             var date = timeZone.getFullYear() + '-' + (("0" + (timeZone.getMonth() + 1 + i)).slice(-2)) + '-' + '1';
-            console.log(date);
         }
     } else if (type == 'year') {
         var date = (timeZone.getFullYear() + i) + '-' + '01' + '-' + '1';
-        console.log(date);
+
     } else {
         throw "Error type"
     }
