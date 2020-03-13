@@ -6,6 +6,16 @@ const { verification, auth } = require('../middleware/auth');
 require('dotenv').config();
 let host = "";
 
+router.get('/Send', verification, async function(req, res) {
+    try {
+        user.req.email ? res.redirect('api/verifyAccount/SendEmail') : res.redirect('api/verifyAccount/SendSMS');
+
+    } catch (err) {
+        res.status(400).json({ Error: err });
+
+    }
+});
+
 
 router.get('/SendSMS', verification, async function(req, res) {
     try {
