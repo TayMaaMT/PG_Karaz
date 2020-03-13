@@ -16,7 +16,7 @@ router.get('/Send', verification, async function(req, res) {
         }
 
     } catch (err) {
-        res.status(400).json({ Error: err });
+        res.status(400).json({ Error: "please authanticate" })
 
     }
 });
@@ -44,7 +44,7 @@ router.get('/SendSMS', verification, async function(req, res) {
             }
         })
     } catch (err) {
-        res.send(err);
+        res.status(400).json({ Error: "please authanticate" })
     }
 })
 router.get('/sendEmail', verification, async function(req, res) {
@@ -68,7 +68,7 @@ router.get('/sendEmail', verification, async function(req, res) {
             }
         });
     } catch (err) {
-        console.log(err);
+        res.status(400).json({ Error: "please authanticate" })
     }
 
 });
@@ -92,7 +92,7 @@ router.get('/sendEmailCode', verification, async function(req, res) {
             }
         });
     } catch (err) {
-        console.log(err);
+        res.status(400).json({ Error: "please authanticate" })
     }
 
 });
@@ -106,7 +106,7 @@ router.post('/CodeVerify', verification, async function(req, res) {
             res.status(400).json({ Error: "code dosent match" });
         }
     } catch (err) {
-        res.status(400).json({ Error: err });
+        res.status(400).json({ Error: "please authanticate" })
 
     }
 });
@@ -128,7 +128,7 @@ router.get('/verify', async function(req, res) {
             res.status(400).json({ Error: "Request is from unknown source" });
         }
     } catch (err) {
-        res.status(400).json({ Error: err });
+        res.status(400).json({ Error: "please authanticate" })
 
     }
 });
@@ -143,8 +143,7 @@ router.get('/ISverify', auth, async function(req, res) {
         }
 
     } catch (err) {
-        res.status(400).json({ Error: err });
-
+        res.status(400).json({ Error: "please authanticate" })
     }
 });
 
