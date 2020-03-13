@@ -58,12 +58,12 @@ router.post('/SendSMS', async function(req, res) {
                         }
                     });
                 } else {
-                    res.send(`Message failed with error: ${responseData.messages[0]['error-text']}`);
+                    res.status(400).json(`Message failed with error: ${responseData.messages[0]['error-text']}`);
                 }
             }
         })
     } catch (err) {
-        res.send({ Error: "connot find user" });
+        res.status(400).json({ Error: "connot find user" });
     }
 })
 
