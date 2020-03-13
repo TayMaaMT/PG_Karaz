@@ -40,7 +40,7 @@ router.post('/FindAccount', async function(req, res) {
 
 })
 
-router.get('/SendSMS', async function(req, res) {
+router.post('/SendSMS', async function(req, res) {
     try {
         const user = await findOne('users', { phone: req.body.phone });
         const random = GenarateRandom();
