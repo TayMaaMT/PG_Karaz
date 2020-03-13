@@ -38,10 +38,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 require('./config/passport');
-app.use('api/user', users);
-app.use('api/verifyAccount', verifyAccount);
-app.use('api/forgetPassword', forgetPassword);
-app.use('api/dashboard', Dashboard);
+app.use('/api/user', users);
+app.use('/api/verifyAccount', verifyAccount);
+app.use('/api/forgetPassword', forgetPassword);
+app.use('/api/dashboard', Dashboard);
 app.get('/', (req, res) => {
 
     // macaddress.all(function(err, all) {
