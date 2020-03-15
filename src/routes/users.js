@@ -12,12 +12,16 @@ router.get('/signup', (req, res) => {
 
 router.get('/visit', visitor, async(req, res) => {
     try {
-        const ip = '192.168.1.12';
+        const ip = getCallerIP();
+        console.log(ip);
         const login_date = new Date();
+        console.log(login_date);
         const user_id = req.id;
+        console.log(user_id);
         await creat('users_logs', { login_date, ip, user_id });
         res.status(200).json({ success: 'save visite' });
     } catch (err) {
+        console.log("errrorr");
         res.send(err);
     }
 })
@@ -33,9 +37,10 @@ router.get('/users', async(req, res) => {
     res.send(users)
 })
 
-router.get('/delet', async(req, res) => {
-    const users = await db.query('DELETE FROM users RETURNING *; ')
-
+router.post('/updateuser', async(req, res) => {
+    const email = req.body.email;
+    const bool = false;
+    const users = await db.query(`UPDATE users SET is_verified = ${bool} WHERE email = '${email}' RETURNING *`)
     res.send(users)
 })
 

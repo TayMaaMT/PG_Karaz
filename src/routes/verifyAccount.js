@@ -84,10 +84,8 @@ router.get('/sendEmailCode', verification, async function(req, res) {
         transporter.sendMail(mailOptions, function(error, response) {
             if (error) {
                 res.status(400).json({ Error: error });
-
             } else {
                 res.status(200).json({ sucess: "sent email" });
-
             }
         });
     } catch (err) {
@@ -114,8 +112,9 @@ router.post('/CodeVerify', verification, async function(req, res) {
 
 router.get('/verify', async function(req, res) {
     try {
+
         if ((req.protocol + "://" + req.get('host')) == ("http://" + host)) {
-            const user = await findOne({ id: req.query.User_ID });
+            const user = await findOne('users', { id: req.query.User_ID });
             if (req.query.code == user.verification_code) {
                 await update('users', user, { verification_code: null, is_verified: true });
                 res.status(200).json({ sucess: "Account has been Successfully verified " + user });

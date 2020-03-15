@@ -15,6 +15,7 @@ const creat = async(table, user) => {
         const { rows } = await db.query(`${QueryUser}`, colval);
         return rows[0].id;
     } catch (err) {
+        console.log(err);
         throw err.detail;
     }
 }
