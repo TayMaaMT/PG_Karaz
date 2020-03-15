@@ -28,16 +28,13 @@ const getvisits = async(timeZone, type) => {
 }
 
 const getSignupType = async() => {
-    const email = await db.query(`SELECT count(*) FROM users Where email is not null AND password is not null`)
-    const phone = await db.query(`SELECT count(*) FROM users Where phone is not null`)
-    const google = await db.query(`SELECT count(*) FROM users Where google_id is not null `)
-    const facebook = await db.query(`SELECT count(*) FROM users Where fb_id is not null `)
-
+    const { rows } = await db.query(`SELECT count(phone) as phone,count(google_id) as google,count(password) as password,count(fb_id) as facebook FROM users`)
+    console.log(rows[0].password - rows[0].phone);
     return {
-        email: email.rows[0].count,
-        phone: phone.rows[0].count,
-        google: google.rows[0].count,
-        facebook: facebook.rows[0].count
+        email: rows[0].password - rows[0].phone,
+        phone: rows[0].phone,
+        google: rows[0].google,
+        facebook: rows[0].facebook
     }
 }
 
