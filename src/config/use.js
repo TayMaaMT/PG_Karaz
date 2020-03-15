@@ -8,7 +8,7 @@ class User {
         const user = this.obj;
         const userObject = {...user };
         delete userObject.password;
-        delete userObject.verification_code;
+
         return userObject;
     }
 }

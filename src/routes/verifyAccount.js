@@ -109,9 +109,10 @@ router.get('/sendEmailCode', verification, async function(req, res) {
 
 router.post('/CodeVerify', verification, async function(req, res) {
     try {
-        if (req.user.random == req.body.random && req.body.random != null) {
+
+        if (req.user.verification_code == req.body.random && req.body.random != null) {
             await update('users', req.user, { verification_code: null, is_verified: true });
-            res.status(200).json({ sucess: "Account has been Successfully verified " + user });
+            res.status(200).json({ sucess: "Account has been Successfully verified " });
         } else {
             res.status(400).json({ Error: "code dosent match" });
         }
