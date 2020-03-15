@@ -20,6 +20,19 @@ router.get('/Send', verification, async function(req, res) {
     }
 });
 
+router.get('/MobileSend', verification, async function(req, res) {
+    try {
+        if (req.user.email) {
+            res.redirect('sendEmailCode')
+        } else if (req.user.phone) {
+            res.redirect('SendSMS');
+        }
+
+    } catch (err) {
+        res.status(400).json({ Error: "please authanticate" })
+
+    }
+});
 
 router.get('/SendSMS', verification, async function(req, res) {
     try {
