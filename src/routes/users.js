@@ -14,12 +14,13 @@ router.get('/visit', visitor, async(req, res) => {
     try {
         const ip = getCallerIP();
         console.log(ip);
-        const login_date = new Date();
-        console.log(login_date);
-        const user_id = req.id;
-        console.log(user_id);
-        await creat('users_logs', { login_date, ip, user_id });
-        res.status(200).json({ success: 'save visite' });
+        res.status(200).json({ success: ip });
+        // const login_date = new Date();
+        // console.log(login_date);
+        // const user_id = req.id;
+        // console.log(user_id);
+        // await creat('users_logs', { login_date, ip, user_id });
+        // res.status(200).json({ success: 'save visite' });
     } catch (err) {
         console.log("errrorr");
         res.send(err);
