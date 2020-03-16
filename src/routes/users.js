@@ -12,8 +12,8 @@ router.get('/signup', (req, res) => {
 
 router.get('/visit', visitor, async(req, res) => {
     try {
-        const ip = "188.161.72.146"; //getCallerIP(req);
-        console.log(getCallerIP(req));
+        const ip = getCallerIP(req)[0]; //getCallerIP(req);
+        console.log(ip);
         const login_date = new Date();
         const user_id = req.id;
         await creat('users_logs', { login_date, ip, user_id });
