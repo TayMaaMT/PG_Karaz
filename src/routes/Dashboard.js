@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { getdate, getInterval, getAllDates, getRang } = require('../config/useDash');
-const { getCountReg, getvisits, getSignupType } = require('../models/dashboard');
+const { getCountReg, getvisits, getSignupType, activeuser, locations, getusers } = require('../models/dashboard');
 
 router.post('/count', async(req, res) => {
     try {
@@ -42,7 +42,10 @@ router.post('/chart', async(req, res) => {
 router.post('/visits', async(req, res) => {
     try {
         const { date, type } = req.body;
+        console.log(date);
+        console.log(type);
         const timeZone = getdate(date, type);
+        console.log(timeZone);
         const { visitor1, visitor2, visits1, visits2, users1, users2 } = await getvisits(timeZone, type);
         const precentvisitor = getRang(visitor1, visitor2);
         const precentvisits = getRang(visits1, visits2);
@@ -74,6 +77,21 @@ router.get('/sigupType', async(req, res) => {
         res.send(err);
     }
 
+})
+
+router.get('/Active', async(req, res) => {
+    const active = await activeuser();
+    res.send(active)
+})
+
+router.get('/location', async(req, res) => {
+    const location = await locations();
+    res.send(location)
+})
+
+router.get('/users', async(req, res) => {
+    const users = await getusers();
+    res.send(users)
 })
 
 

@@ -1,4 +1,10 @@
 const getDiffer = {
+    inhours: function(d1, d2) {
+        var t2 = d2.getTime();
+        var t1 = d1.getTime();
+        return parseInt((t2 - t1) / (3600 * 1000));
+
+    },
 
     inDays: function(d1, d2) {
         var t2 = d2.getTime();
@@ -31,7 +37,9 @@ const getDiffer = {
 const getInterval = (startDate, endDate, type) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    if (type == 'day') {
+    if (type == 'hour') {
+        var interval = getDiffer.inhours(start, end) + 1;
+    } else if (type == 'day') {
         var interval = getDiffer.inDays(start, end) + 1;
     } else if (type == 'month') {
         var interval = getDiffer.inMonths(start, end) + 1;
@@ -48,8 +56,13 @@ const getInterval = (startDate, endDate, type) => {
 
 const getdate = (datetime, type, i = 1) => {
     const timeZone = new Date(datetime);
-    // var time = timeZone.getHours() + ":" + timeZone.getMinutes() + ":" + timeZone.getSeconds();
-    if (type == 'day') {
+
+    if (type == 'hour') {
+        var time = (timeZone.getHours() + 1) + ":" + timeZone.getMinutes() + ":" + timeZone.getSeconds();
+        var date = timeZone.getFullYear() + '-' + (("0" + (timeZone.getMonth() + 1)).slice(-2)) + '-' + (timeZone.getDate());
+
+        console.log(date);
+    } else if (type == 'day') {
         const newDate = new Date(timeZone.setDate((timeZone.getDate() + i)));
         var date = newDate.getFullYear() + '-' + (("0" + (newDate.getMonth() + 1)).slice(-2)) + '-' + (newDate.getDate());
 
@@ -66,7 +79,7 @@ const getdate = (datetime, type, i = 1) => {
     } else {
         throw "Error type"
     }
-    return date;
+    return date + " " + time;
 }
 
 const getAllDates = (datetime, interval, type) => {
