@@ -1,7 +1,9 @@
 const db = require('../config/db');
 const getCountReg = async(datetime, type) => {
-
+    text = `select count(*) FROM users Where reg_date BETWEEN '${datetime}'::date - interval '1 ${type}' AND '${datetime}'::date `;
+    console.log(text);
     const Datequery1 = await db.query(`select count(*) FROM users Where reg_date BETWEEN '${datetime}'::date - interval '1 ${type}' AND '${datetime}'::date `)
+
     const Datequery2 = await db.query(`select count(*) FROM users Where reg_date BETWEEN '${datetime}'::date - interval '2 ${type}' AND '${datetime}'::date `)
 
     return {

@@ -59,9 +59,9 @@ const getdate = (datetime, type, i = 1) => {
 
     if (type == 'hour') {
         var time = (timeZone.getHours() + 1) + ":" + timeZone.getMinutes() + ":" + timeZone.getSeconds();
-        var date = timeZone.getFullYear() + '-' + (("0" + (timeZone.getMonth() + 1)).slice(-2)) + '-' + (timeZone.getDate());
+        var _date = timeZone.getFullYear() + '-' + (("0" + (timeZone.getMonth() + 1)).slice(-2)) + '-' + (timeZone.getDate());
 
-        console.log(date);
+        var date = _date + " " + time
     } else if (type == 'day') {
         const newDate = new Date(timeZone.setDate((timeZone.getDate() + i)));
         var date = newDate.getFullYear() + '-' + (("0" + (newDate.getMonth() + 1)).slice(-2)) + '-' + (newDate.getDate());
@@ -79,7 +79,7 @@ const getdate = (datetime, type, i = 1) => {
     } else {
         throw "Error type"
     }
-    return date + " " + time;
+    return date;
 }
 
 const getAllDates = (datetime, interval, type) => {
