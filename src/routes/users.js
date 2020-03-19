@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const db = require('../config/db');
-const { auth, visitor } = require('../middleware/auth');
+const { auth, visitor, private } = require('../middleware/auth');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const { getCallerIP } = require('../config/use');
@@ -12,14 +12,17 @@ router.get('/signup', (req, res) => {
     res.send('sign up  page');
 })
 
-router.get('/visit', visitor, async(req, res) => {
+router.get('/visit', [private, visitor], async(req, res) => {
     try {
-        const ip = getCallerIP(req)[0]; //getCallerIP(req);
-        console.log(ip);
+
+        const ip = getCallerIP(req)[0];
         const login_date = new Date();
         const user_id = req.id;
-        const serial = uuidV4();
-        await creat('users_logs', { login_date, ip, user_id });
+        let serial_number = req.serial_number;
+        if (!user_id) {
+            serial_number = uuidV4();
+        }
+        await creat('users_logs', { login_date, ip, user_id, serial_number });
         res.status(200).json({ success: 'save visite' });
     } catch (err) {
         console.log("errrorr");

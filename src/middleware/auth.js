@@ -69,7 +69,7 @@ const visitor = (req, res, next) => {
             next();
         } else {
             req.id = deacode.id;
-            console.log(req.id);
+            req.serial_number = deacode.Uid;
             next();
         }
     } catch (err) {
