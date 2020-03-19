@@ -7,8 +7,10 @@ const users = require('./routes/users');
 const verifyAccount = require('./routes/verifyAccount');
 const forgetPassword = require('./routes/forgetPassword');
 const Dashboard = require('./routes/Dashboard');
+const settings = require('./routes/settings');
 require('dotenv').config();
 require("./config/db");
+require("./config/redis_");
 const app = exprss();
 
 app.use(cors({
@@ -23,6 +25,7 @@ app.use('/api/user', users);
 app.use('/api/verifyAccount', verifyAccount);
 app.use('/api/forgetPassword', forgetPassword);
 app.use('/api/dashboard', Dashboard);
+app.use('/api/settings', settings);
 app.get('/', (req, res) => {
 
     // macaddress.all(function(err, all) {

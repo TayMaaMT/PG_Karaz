@@ -2,11 +2,11 @@ const router = require('express').Router();
 const { nexmo, transporter } = require('../config/Configure');
 const { GenarateRandom } = require('../config/use');
 const { update, findOne } = require('../models/users');
-const { verification, auth } = require('../middleware/auth');
+const { private, verification, auth } = require('../middleware/auth');
 require('dotenv').config();
 let host = "";
 
-router.get('/Send', verification, async function(req, res) {
+router.get('/Send', [private, verification], async function(req, res) {
     try {
         if (req.user.email) {
             res.redirect('SendEmail')
@@ -20,7 +20,7 @@ router.get('/Send', verification, async function(req, res) {
     }
 });
 
-router.get('/MobileSend', verification, async function(req, res) {
+router.get('/MobileSend', [private, verification], async function(req, res) {
     try {
         if (req.user.email) {
             res.redirect('sendEmailCode')
@@ -34,7 +34,7 @@ router.get('/MobileSend', verification, async function(req, res) {
     }
 });
 
-router.get('/SendSMS', verification, async function(req, res) {
+router.get('/SendSMS', [private, verification], async function(req, res) {
     try {
         const random = GenarateRandom();
         await update('users', req.user, { verification_code: random });
@@ -59,7 +59,7 @@ router.get('/SendSMS', verification, async function(req, res) {
         res.status(400).json({ Error: "please authanticate" })
     }
 })
-router.get('/sendEmail', verification, async function(req, res) {
+router.get('/sendEmail', [private, verification], async function(req, res) {
     try {
         const random = GenarateRandom();
         await update('users', req.user, { verification_code: random });
@@ -85,7 +85,7 @@ router.get('/sendEmail', verification, async function(req, res) {
 
 });
 
-router.get('/sendEmailCode', verification, async function(req, res) {
+router.get('/sendEmailCode', [private, verification], async function(req, res) {
     try {
         const random = GenarateRandom();
         await update('users', req.user, { verification_code: random });
@@ -107,7 +107,7 @@ router.get('/sendEmailCode', verification, async function(req, res) {
 
 });
 
-router.post('/CodeVerify', verification, async function(req, res) {
+router.post('/CodeVerify', [private, verification], async function(req, res) {
     try {
 
         if (req.user.verification_code == req.body.random && req.body.random != null) {
@@ -129,9 +129,9 @@ router.get('/verify', async function(req, res) {
 
         if ((req.protocol + "://" + req.get('host')) == ("http://" + host)) {
             const user = await findOne('users', { id: req.query.User_ID });
-            if (req.query.code == user.verification_code) {
-                await update('users', user, { verification_code: null, is_verified: true });
-                res.status(200).json({ sucess: "Account has been Successfully verified " + user });
+            if (req.query.code == user[0].verification_code) {
+                await update('users', user[0], { verification_code: null, is_verified: true });
+                res.status(200).json({ sucess: "Account has been Successfully verified " + user[0] });
                 //res.redirect('http://localhost:3000/verify-account');
             } else {
                 res.status(400).json({ Error: "Bad Request" });

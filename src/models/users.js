@@ -1,7 +1,7 @@
 const db = require('../config/db');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { CreatQuery, SelectQuerytable, UpdateQuerytable } = require('../config/use');
+const { CreatQuery, SelectQuerytable, UpdateQuerytable, DeletQuerytable } = require('../config/use');
 require('dotenv').config();
 
 
@@ -59,7 +59,21 @@ const findOne = async(table, data) => {
         });
         const SelectQuery = SelectQuerytable(table, data);
         const { rows } = await db.query(`${SelectQuery}`, colval);
-        return rows[0];
+        return rows;
+    } catch (err) {
+        throw err.detail;
+    }
+
+}
+
+const deletOne = async(table, data) => {
+    try {
+        const colval = Object.keys(data).map(function(key) {
+            return data[key];
+        });
+        const deletQuery = DeletQuerytable(table, data);
+        const { rows } = await db.query(`${deletQuery}`, colval);
+        return rows;
     } catch (err) {
         throw err.detail;
     }
@@ -68,8 +82,8 @@ const findOne = async(table, data) => {
 
 
 
-const genarateAuthToken = (id) => {
-    const token = jwt.sign({ id: id.toString() }, process.env.TOKEN_KEY)
+const genarateAuthToken = (id, Uid) => {
+    const token = jwt.sign({ id: id.toString(), Uid }, process.env.TOKEN_KEY)
     return token;
 }
 
@@ -100,8 +114,10 @@ const findByCredentials = async(email, phone, password) => {
 
 
 const update = async(table, user, data) => {
+
     try {
         const id = user.id;
+
         const colval = Object.keys(data).map(function(key) {
             return data[key];
         });
@@ -114,6 +130,16 @@ const update = async(table, user, data) => {
 
 }
 
+///////////////////////////////////////////////
+const loggers = async() => {
+    try {
+        const { rows } = await db.query('SELECT * FROM login ')
+        return rows;
+    } catch (err) {
+        throw err.detail;
+    }
+}
+
 module.exports = {
     creat,
     getusers,
@@ -123,5 +149,7 @@ module.exports = {
     verifyAuthToken,
     update,
     findOne,
-    getvisitors
+    getvisitors,
+    loggers,
+    deletOne
 }

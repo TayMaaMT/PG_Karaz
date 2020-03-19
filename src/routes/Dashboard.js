@@ -28,9 +28,7 @@ router.post('/chart', async(req, res) => {
         let countObj = [];
         const { dateStart, dateEnd, type } = req.body;
         const interval = getInterval(dateStart, dateEnd, type);
-        console.log(interval);
         const ArrayTimeZone = getAllDates(dateStart, interval, type);
-        console.log(ArrayTimeZone);
         for (let timeZone in ArrayTimeZone) {
             const { count1 } = await getCountReg(ArrayTimeZone[timeZone], type);
             countObj.push(count1);

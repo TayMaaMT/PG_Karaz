@@ -53,10 +53,30 @@ const SelectQuerytable = (table, cols) => {
     // assigning a number value for parameterized query
     let set = [];
     Object.keys(cols).forEach(function(key, i) {
-        set.push(key + ' = ($' + (i + 1) + ')');
+        set.push(key + ' = $' + (i + 1));
     });
+
     query.push(set.join(' AND '));
     // Return a complete query string
+
+    return query.join(' ');
+
+}
+
+const DeletQuerytable = (table, cols) => {
+    // beginning of select query
+    let query = ['DELETE FROM'];
+    query.push(table);
+    query.push('WHERE');
+    // assigning a number value for parameterized query
+    let set = [];
+    Object.keys(cols).forEach(function(key, i) {
+        set.push(key + ' = $' + (i + 1));
+    });
+
+    query.push(set.join(' AND '));
+    // Return a complete query string
+
     return query.join(' ');
 
 }
@@ -104,5 +124,6 @@ module.exports = {
     SelectQuerytable,
     CreatQuery,
     getCallerIP,
-    getCallerPort
+    getCallerPort,
+    DeletQuerytable
 }

@@ -5,6 +5,8 @@ const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const { getCallerIP } = require('../config/use');
 const { creat, getvisitors, getusers, findOneUser, genarateAuthToken, findByCredentials } = require('../models/users');
+const { client } = require('../config/redis_');
+const uuidV4 = require('uuid').v4;
 require('dotenv').config();
 router.get('/signup', (req, res) => {
     res.send('sign up  page');
@@ -16,6 +18,7 @@ router.get('/visit', visitor, async(req, res) => {
         console.log(ip);
         const login_date = new Date();
         const user_id = req.id;
+        const serial = uuidV4();
         await creat('users_logs', { login_date, ip, user_id });
         res.status(200).json({ success: 'save visite' });
     } catch (err) {
@@ -60,11 +63,20 @@ router.post('/findUser', async function(req, res) {
 
 router.post('/signup', async(req, res) => {
     try {
-        const { name, email, phone, password } = req.body;
+        const { name, email, phone, password, device_name, browser_name } = req.body;
         const hashPassword = await bcrypt.hash(password, 8);
+        const ip = getCallerIP(req)[0];
         const reg_date = new Date();
+        const serial_number = uuidV4();
         const user_id = await creat('users', { name, email, phone, password: hashPassword, reg_date });
-        const token = genarateAuthToken(user_id);
+        const login_id = await creat('login', { user_id, device_name, browser_name, ip, serial_number });
+        console.log(login_id);
+        const token = genarateAuthToken(user_id, serial_number);
+        client.set(`${serial_number}`, token);
+
+        // client.get(`${serial_number}kk`, function(err, reply) {
+        //     console.log(err);
+        // });
         res.status(200).json({ token: token });
     } catch (err) {
         console.log(err);
@@ -86,9 +98,13 @@ router.post('/signup', async(req, res) => {
 
 router.post('/login', async(req, res) => {
     try {
-        const { email, phone, password } = req.body;
+        const { email, phone, password, device_name, browser_name } = req.body;
         const user_id = await findByCredentials(email, phone, password);
-        const token = genarateAuthToken(user_id);
+        const ip = getCallerIP(req)[0];
+        const serial_number = uuidV4();
+        const login_id = await creat('login', { user_id, device_name, browser_name, ip, serial_number });
+        const token = genarateAuthToken(user_id, serial_number);
+        client.set(`${serial_number}`, token);
         res.status(200).json({ token: token });
     } catch (err) {
         res.status(400).json({ Error: "Unable to login" })
