@@ -12,7 +12,7 @@ router.get('/signup', (req, res) => {
     res.send('sign up  page');
 })
 
-router.get('/visit', [private, visitor], async(req, res) => {
+router.get('/visit', visitor, async(req, res) => {
     try {
 
         const ip = getCallerIP(req)[0];
