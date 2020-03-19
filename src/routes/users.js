@@ -18,7 +18,7 @@ router.get('/visit', [private, visitor], async(req, res) => {
         const ip = getCallerIP(req)[0];
         const login_date = new Date();
         const user_id = req.id;
-        let serial_number = req.serial_number;
+        let serial_number;
         if (!user_id) {
             serial_number = uuidV4();
         }
