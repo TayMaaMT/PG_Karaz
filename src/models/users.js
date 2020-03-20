@@ -22,7 +22,7 @@ const creat = async(table, user) => {
 
 const getvisitors = async() => {
     try {
-        const { rows } = await db.query('SELECT * FROM users_logs ')
+        const { rows } = await db.query('SELECT * FROM users_logs ORDER BY id DESC; ')
         return rows;
     } catch (err) {
         throw err.detail;

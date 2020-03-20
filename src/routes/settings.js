@@ -13,6 +13,7 @@ router.get('/logger', async(req, res) => {
 router.get('/activities', private, async(req, res) => {
     try {
         const activities = await findOne('login', { user_id: req.user_id });
+        console.log(activities[0].ip.city);
         res.send(activities)
     } catch (err) {
 
