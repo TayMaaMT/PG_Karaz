@@ -22,7 +22,7 @@ const creat = async(table, user) => {
 
 const getvisitors = async() => {
     try {
-        const { rows } = await db.query('SELECT * FROM users_logs ORDER BY id DESC; ')
+        const { rows } = await db.query('SELECT * FROM users_logs  ')
         return rows;
     } catch (err) {
         throw err.detail;
@@ -33,7 +33,7 @@ const getvisitors = async() => {
 
 const getusers = async() => {
     try {
-        const { rows } = await db.query('SELECT * FROM users ')
+        const { rows } = await db.query('SELECT * FROM users ORDER BY id DESC; ')
         return rows;
     } catch (err) {
         throw err.detail;
