@@ -127,9 +127,10 @@ router.get('/google', passport.authenticate('google', {
 }))
 router.get('/google/redirect', passport.authenticate('google', { failureRedirect: "/", session: false }), async(req, res) => {
     // const token = await req.user.genarateAuthToken();
-    // res.redirect("http://localhost:3000/verify-account/?token=" + token);
+
     const token = genarateAuthToken(req.user.id);
-    res.status(200).json({ token: token });
+    res.redirect("https://karazpro.netlify.com/verify-account/?token=" + token);
+    //res.status(200).json({ token: token });
 })
 
 router.get('/facebook', passport.authenticate('facebook', { scope: "email" }))
@@ -138,7 +139,8 @@ router.get('/facebook/redirect', passport.authenticate('facebook', { failureRedi
 
         //res.redirect("http://localhost:3000/verify-account/?token=" + token);
         const token = genarateAuthToken(req.user.id);
-        res.status(200).json({ token: token });
+        res.redirect("https://karazpro.netlify.com/verify-account/?token=" + token);
+        // res.status(200).json({ token: token });
 
     } catch (err) {
         res.status(400).json({ Error: err })
