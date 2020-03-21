@@ -67,7 +67,7 @@ passport.use(
                     done(null, user[0]);
                 } else {
                     const reg_date = new Date();
-                    const user_id = await creat('users', {
+                    const user = await creat('users', {
                         name: profile.displayName,
                         google_id: profile.id,
                         email: profile.email,

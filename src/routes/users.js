@@ -139,8 +139,8 @@ router.get('/facebook/redirect', passport.authenticate('facebook', { failureRedi
 
         //res.redirect("http://localhost:3000/verify-account/?token=" + token);
         const token = genarateAuthToken(req.user.id);
-        res.redirect("https://karazpro.netlify.com/verify-account/?token=" + token);
-        // res.status(200).json({ token: token });
+        //res.redirect("https://karazpro.netlify.com/verify-account/?token=" + token);
+        res.status(200).json({ token: token });
 
     } catch (err) {
         res.status(400).json({ Error: err })
