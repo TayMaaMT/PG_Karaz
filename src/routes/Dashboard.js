@@ -91,9 +91,14 @@ router.get('/location', async(req, res) => {
 })
 
 router.get('/users', async(req, res) => {
-    const users = await getusers();
-    res.send(users)
-})
+        const users = await getusers();
+        res.send(users)
+    })
+    // router.get('/newuser', async(req, res) => {
+    //     const users = await getnewuser();
+    //     res.send(users)
+    // })
+
 
 
 

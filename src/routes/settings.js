@@ -4,6 +4,32 @@ const { loggers, findOne, deletOne, update } = require('../models/users');
 const { private } = require('../middleware/auth');
 const { client } = require('../config/redis_');
 
+class dataSettings {
+    constructor({ name, email, phone, location, bairthday }) {
+        if (name) { this.name = name }
+        if (email) { this.email = email }
+        if (phone) { this.phone = phone }
+        if (location) { this.location = location }
+        if (bairthday) { this.bairthday = bairthday }
+    }
+    getData() {
+        return this
+    }
+}
+
+
+router.post('/editProfile', private, async(req, res) => {
+    try {
+        const { name, email, phone, location, bairthday } = req.body;
+        const Data = new dataSettings({ name, email, phone, location, bairthday });
+        const user = await findOne('users', { id: req.user_id });
+        await update('users', user[0], Data);
+    } catch (err) {
+        res.send(err)
+    }
+    res.send(user1)
+})
+
 
 router.get('/logger', async(req, res) => {
     const logger = await loggers();
@@ -78,7 +104,7 @@ router.post('/resetPassword', private, async(req, res) => {
             throw "password is not correct ";
         }
         const hashPassword = await bcrypt.hash(newPassword, 8);
-        console.log(user[0].id);
+
         await update('users', user[0], { password: hashPassword });
         res.send("reset success")
     } catch (err) {

@@ -58,21 +58,28 @@ const getdate = (datetime, type, i = 1) => {
     const timeZone = new Date(datetime);
 
     if (type == 'hour') {
-        var time = (timeZone.getHours() + 1) + ":" + timeZone.getMinutes() + ":" + timeZone.getSeconds();
-        var _date = timeZone.getFullYear() + '-' + (("0" + (timeZone.getMonth() + 1)).slice(-2)) + '-' + (timeZone.getDate());
-
+        if ((timeZone.getHours() + i) >= '24') {
+            let count = (timeZone.getHours() + i) - '24'
+            var time = count + ":" + "00" + ":" + "00";
+            const newDate = new Date(timeZone.setDate((timeZone.getDate() + 1)));
+            var _date = newDate.getFullYear() + '-' + (("0" + (newDate.getMonth() + 1)).slice(-2)) + '-' + (newDate.getDate());
+        } else {
+            var time = (timeZone.getHours() + i) + ":" + "00" + ":" + "00";
+            var _date = timeZone.getFullYear() + '-' + (("0" + (timeZone.getMonth() + 1)).slice(-2)) + '-' + (timeZone.getDate());
+        }
         var date = _date + " " + time
     } else if (type == 'day') {
         const newDate = new Date(timeZone.setDate((timeZone.getDate() + i)));
-        var date = newDate.getFullYear() + '-' + (("0" + (newDate.getMonth() + 1)).slice(-2)) + '-' + (newDate.getDate());
-
+        var _date = newDate.getFullYear() + '-' + (("0" + (newDate.getMonth() + 1)).slice(-2)) + '-' + (newDate.getDate());
+        var date = _date + " " + "00:00:00"
     } else if (type == 'month') {
         if ((("0" + (timeZone.getMonth() + i)).slice(-2)) >= '12') {
             let count = (timeZone.getMonth() + i) - '11'
-            var date = (timeZone.getFullYear() + 1) + '-' + (("0" + count).slice(-2)) + '-' + '1';
+            var _date = (timeZone.getFullYear() + 1) + '-' + (("0" + count).slice(-2)) + '-' + '1';
         } else {
-            var date = timeZone.getFullYear() + '-' + (("0" + (timeZone.getMonth() + 1 + i)).slice(-2)) + '-' + '1';
+            var _date = timeZone.getFullYear() + '-' + (("0" + (timeZone.getMonth() + 1 + i)).slice(-2)) + '-' + '1';
         }
+        var date = _date + " " + "00:00:00"
     } else if (type == 'year') {
         var date = (timeZone.getFullYear() + i) + '-' + '01' + '-' + '1';
 
@@ -90,7 +97,9 @@ const getAllDates = (datetime, interval, type) => {
         Array.push(getdate(timeZone, type, i));
 
     }
+    console.log(Array);
     return Array;
+
 }
 
 const getRang = (query1, query2) => {

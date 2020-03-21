@@ -1,10 +1,9 @@
 const db = require('../config/db');
 const getCountReg = async(datetime, type) => {
-    text = `select count(*) FROM users Where reg_date BETWEEN '${datetime}'::date - interval '1 ${type}' AND '${datetime}'::date `;
-    console.log(text);
-    const Datequery1 = await db.query(`select count(*) FROM users Where reg_date BETWEEN '${datetime}'::date - interval '1 ${type}' AND '${datetime}'::date `)
 
-    const Datequery2 = await db.query(`select count(*) FROM users Where reg_date BETWEEN '${datetime}'::date - interval '2 ${type}' AND '${datetime}'::date `)
+    const Datequery1 = await db.query(`select count(*) FROM users Where reg_date BETWEEN timestamp '${datetime}' - interval '1 ${type}' AND timestamp '${datetime}' `)
+
+    const Datequery2 = await db.query(`select count(*) FROM users Where reg_date BETWEEN timestamp '${datetime}' - interval '2 ${type}' AND timestamp '${datetime}' `)
 
     return {
         count1: Datequery1.rows[0].count,
@@ -25,12 +24,19 @@ const getCountReg = async(datetime, type) => {
 //     }
 // }
 
+// const getnewuser = async() => {
+//     const { rows } = await db.query(`select * from users where reg_date between timestamp '2020-03-21 00:00:00' - interval '2 day' AND timestamp '2020-03-21 0:00:00'  ORDER BY reg_date DESC;`)
+//     console.log(rows);
+//     return rows;
+
+// }
+
 const getvisits = async(timeZone, type) => {
 
-    const visits1 = await db.query(`SELECT count(*) FROM users_logs  where login_date BETWEEN '${timeZone}'::date - interval '1 ${type}' AND '${timeZone}'::date`)
-    const visits2 = await db.query(`SELECT count(*) FROM users_logs  where login_date BETWEEN '${timeZone}'::date - interval '2 ${type}' AND '${timeZone}'::date`)
-    const visitor1 = await db.query(`SELECT count(*) FROM users_logs Where user_id is null AND (login_date BETWEEN '${timeZone}'::date - interval '1 ${type}' AND '${timeZone}'::date)`)
-    const visitor2 = await db.query(`SELECT count(*) FROM users_logs Where user_id is null AND (login_date BETWEEN '${timeZone}'::date - interval '2 ${type}' AND '${timeZone}'::date)`)
+    const visits1 = await db.query(`SELECT count(*) FROM users_logs  where login_date BETWEEN timestamp '${timeZone}' - interval '1 ${type}' AND timestamp '${timeZone}'`)
+    const visits2 = await db.query(`SELECT count(*) FROM users_logs  where login_date BETWEEN timestamp '${timeZone}' - interval '2 ${type}' AND timestamp '${timeZone}'`)
+    const visitor1 = await db.query(`SELECT count(*) FROM users_logs Where user_id is null AND (login_date BETWEEN timestamp '${timeZone}' - interval '1 ${type}' AND timestamp '${timeZone}')`)
+    const visitor2 = await db.query(`SELECT count(*) FROM users_logs Where user_id is null AND (login_date BETWEEN timestamp '${timeZone}' - interval '2 ${type}' AND timestamp '${timeZone}')`)
 
     return {
         visits1: visits1.rows[0].count,
@@ -96,5 +102,7 @@ module.exports = {
     getSignupType,
     activeuser,
     locations,
-    getusers
+    getusers,
+
+
 }
