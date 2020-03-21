@@ -44,7 +44,7 @@ router.get('/users', async(req, res) => {
 router.post('/updateuser', async(req, res) => {
     const email = req.body.email;
     const bool = false;
-    const users = await db.query(`UPDATE users SET is_verified = ${bool} WHERE email = '${email}' RETURNING *`)
+    const users = await db.query(`UPDATE users SET is_verified = '${bool}' WHERE email = '${email}' RETURNING *`)
     res.send(users)
 })
 

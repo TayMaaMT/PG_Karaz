@@ -33,7 +33,7 @@ const getvisitors = async() => {
 
 const getusers = async() => {
     try {
-        const { rows } = await db.query('SELECT * FROM users ORDER BY id DESC; ')
+        const { rows } = await db.query(`SELECT * FROM users where email = 'aia.r.h@hotmail.com' ORDER BY id DESC; `)
         return rows;
     } catch (err) {
         throw err.detail;
