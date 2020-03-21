@@ -49,7 +49,7 @@ passport.use(
 passport.use(
     new GoogleStrategy(googleOption, async(accessToken, refreshToken, profile, done) => {
         try {
-
+            console.log(profile);
             const currentUser = await findOne('users', { google_id: profile.id });
             if (currentUser[0]) {
                 // if the user is not new (has created )
