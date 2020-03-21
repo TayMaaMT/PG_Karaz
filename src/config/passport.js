@@ -16,7 +16,8 @@ passport.deserializeUser(function(user, done) {
 passport.use(
     new facebookeStrategy(FacebookOption, async(accessToken, refreshToken, profile, done) => {
         try {
-            console.log(profile);
+            const picture = `https://graph.facebook.com/${profile._json.id}/picture?width=200&height=200&access_token=${accessToken}`
+            console.log(picture);
             const currentUser = await findOne('users', { fb_id: profile._json.id });
             if (currentUser[0]) {
                 // if the user is not new (has created )
