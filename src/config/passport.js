@@ -18,12 +18,14 @@ passport.use(
         try {
             const picture = `https://graph.facebook.com/${profile._json.id}/picture?width=200&height=200&access_token=${accessToken}`
             const currentUser = await findOne('users', { fb_id: profile._json.id });
+            console.log(currentUser);
             if (currentUser[0]) {
                 // if the user is not new (has created )
                 done(null, currentUser[0]);
             } else {
                 // if the user is new (not created yet)
                 const user = await findOne('users', { email: profile._json.email });
+                console.log(user);
                 if (user[0]) {
                     await update('users', user[0], { fb_id: profile._json.id });
                     done(null, user[0]);
