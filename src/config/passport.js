@@ -38,6 +38,7 @@ passport.use(
                         reg_date
                     });
                     const newUser = await findOne('users', { fb_id: profile._json.id });
+                    console.log(newUser[0]);
                     done(null, newUser[0]);
                 }
             }
