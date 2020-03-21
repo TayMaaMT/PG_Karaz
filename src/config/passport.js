@@ -26,7 +26,7 @@ passport.use(
                 const user = await findOne('users', { email: profile._json.email });
 
                 if (user[0]) {
-                    await update('users', user[0], { fb_id: profile._json.id, is_verified: true, });
+                    await update('users', user[0], { fb_id: profile._json.id, is_verified: true, verification_method: "email" });
                     done(null, user[0]);
                 } else {
                     const reg_date = new Date();
@@ -65,7 +65,7 @@ passport.use(
 
                 if (user[0]) {
 
-                    await update('users', user[0], { google_id: profile.id, is_verified: profile.email_verified, verification_method: "email", });
+                    await update('users', user[0], { google_id: profile.id, is_verified: profile.email_verified, verification_method: "email" });
                     done(null, user[0]);
                 } else {
                     const reg_date = new Date();
