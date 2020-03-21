@@ -65,7 +65,7 @@ passport.use(
 
                 if (user[0]) {
 
-                    await update('users', user[0], { google_id: profile.id, is_verified: profile.email_verified });
+                    await update('users', user[0], { google_id: profile.id, is_verified: profile.email_verified, verification_method: "email", });
                     done(null, user[0]);
                 } else {
                     const reg_date = new Date();
