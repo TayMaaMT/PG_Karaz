@@ -7,7 +7,7 @@ const FacebookOption = {
     //option of the faceboook strategy 
     clientID: process.env.FACEBOOK_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-    callbackURL: 'http://karaz6.herokuapp.com/api/user/facebook/redirect',
+    callbackURL: 'https://karaz6.herokuapp.com/api/user/facebook/redirect',
     profileFields: ["id", "displayName", "email", "gender"],
     proxy: true
 }

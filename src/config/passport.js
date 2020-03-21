@@ -49,7 +49,6 @@ passport.use(
 passport.use(
     new GoogleStrategy(googleOption, async(accessToken, refreshToken, profile, done) => {
         try {
-            console.log(profile);
             const currentUser = await findOne('users', { google_id: profile.id });
             if (currentUser[0]) {
                 // if the user is not new (has created )
@@ -68,6 +67,7 @@ passport.use(
                         name: profile.displayName,
                         google_id: profile.id,
                         email: profile.email,
+                        image_url: profile.picture,
                         is_verified: profile.email_verified,
                         reg_date
                     });
