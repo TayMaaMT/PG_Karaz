@@ -27,6 +27,7 @@ passport.use(
 
                 if (user[0]) {
                     await update('users', user[0], { fb_id: profile._json.id, is_verified: true, verification_method: "email" });
+                    console.log(user[0]);
                     done(null, user[0]);
                 } else {
                     const reg_date = new Date();
