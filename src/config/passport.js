@@ -26,7 +26,7 @@ passport.use(
                 const user = await findOne('users', { email: profile._json.email });
 
                 if (user[0]) {
-                    await update('users', user[0], { fb_id: profile._json.id });
+                    await update('users', user[0], { fb_id: profile._json.id, is_verified: true, });
                     done(null, user[0]);
                 } else {
                     const reg_date = new Date();

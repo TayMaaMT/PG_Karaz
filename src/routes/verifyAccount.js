@@ -130,9 +130,9 @@ router.get('/verify', async function(req, res) {
         if ((req.protocol + "://" + req.get('host')) == ("http://" + host)) {
             const user = await findOne('users', { id: req.query.User_ID });
             if (req.query.code == user[0].verification_code) {
-                await update('users', user[0], { verification_code: null, is_verified: true });
-                res.status(200).json({ sucess: "Account has been Successfully verified " + user[0] });
-                //res.redirect('http://localhost:3000/verify-account');
+                await update('users', user[0], { verification_code: null, is_verified: true, verification_method: "email" });
+                //res.status(200).json({ sucess: "Account has been Successfully verified " + user[0] });
+                res.redirect('https://karazpro.netlify.com/verify-account');
             } else {
                 res.status(400).json({ Error: "Bad Request" });
             }
