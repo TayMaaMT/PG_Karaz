@@ -17,7 +17,6 @@ passport.use(
     new facebookeStrategy(FacebookOption, async(accessToken, refreshToken, profile, done) => {
         try {
             const picture = `https://graph.facebook.com/${profile._json.id}/picture?width=200&height=200&access_token=${accessToken}`
-            console.log(picture);
             const currentUser = await findOne('users', { fb_id: profile._json.id });
             if (currentUser[0]) {
                 // if the user is not new (has created )
@@ -29,13 +28,15 @@ passport.use(
                     await update('users', user[0], { fb_id: profile._json.id });
                     done(null, user[0]);
                 } else {
-                    // const user_id = await creat('users', {
-                    //     name: profile._json.name,
-                    //     fb_id: profile._json.id,
-                    //     email: profile._json.email,
-                    //     is_verified: true,
-                    //     reg_date
-                    // });
+                    const user_id = await creat('users', {
+                        name: profile._json.name,
+                        fb_id: profile._json.id,
+                        email: profile._json.email,
+                        image_url: picture,
+                        is_verified: true,
+                        verification_method: "email",
+                        reg_date
+                    });
                     const newUser = await findOne('users', { fb_id: profile._json.id });
                     done(null, newUser[0]);
                 }
@@ -72,6 +73,7 @@ passport.use(
                         email: profile.email,
                         image_url: profile.picture,
                         is_verified: profile.email_verified,
+                        verification_method: "email",
                         reg_date
                     });
 
