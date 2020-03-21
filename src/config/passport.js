@@ -31,7 +31,11 @@ passport.use(
                     await update('users', user[0], { fb_id: profile._json.id });
                     done(null, user[0]);
                 } else {
-                    console.log("no user");
+                    console.log(profile._json.name);
+                    console.log(profile._json.id);
+                    console.log(profile._json.email);
+                    console.log(picture);
+                    const reg_date = new Date();
                     const user_id = await creat('users', {
                         name: profile._json.name,
                         fb_id: profile._json.id,
