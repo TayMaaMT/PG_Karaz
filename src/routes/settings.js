@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const { loggers, findOne, deletOne, update } = require('../models/users');
 const { private } = require('../middleware/auth');
 const { client } = require('../config/redis_');
+const geoip = require('geoip-lite');
 
 class dataSettings {
     constructor({ name, email, phone, location, bairthday }) {
@@ -39,7 +40,9 @@ router.get('/logger', async(req, res) => {
 router.get('/activities', private, async(req, res) => {
     try {
         const activities = await findOne('login', { user_id: req.user_id });
-        console.log(activities[0].ip.city);
+        console.log(activities[0].ip);
+        var geo = geoip.lookup(activities[0].ip)
+        console.log(geo);
         res.send(activities)
     } catch (err) {
 
@@ -112,6 +115,27 @@ router.post('/resetPassword', private, async(req, res) => {
         res.send(err)
     }
 })
+
+router.post('/NewPassword', private, async(req, res) => {
+    try {
+        const { newPassword } = req.body;
+        const user = await findOne('users', { id: req.user_id });
+        console.log(oldPassword);
+        const isMatch = await bcrypt.compare(oldPassword, user[0].password);
+        console.log(isMatch);
+        if (!isMatch) {
+            throw "password is not correct ";
+        }
+        const hashPassword = await bcrypt.hash(newPassword, 8);
+
+        await update('users', user[0], { password: hashPassword });
+        res.send("reset success")
+    } catch (err) {
+        console.log("some erorr");
+        res.send(err)
+    }
+})
+
 
 
 module.exports = router;
