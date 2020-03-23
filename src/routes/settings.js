@@ -40,7 +40,7 @@ router.get('/logger', async(req, res) => {
 router.get('/activities', private, async(req, res) => {
     try {
         const activities = await findOne('login', { user_id: req.user_id });
-        console.log(activities[0].ip);
+        console.log(activities[2].ip);
         var geo = geoip.lookup(activities[0].ip)
         console.log(geo);
         res.send(activities)
