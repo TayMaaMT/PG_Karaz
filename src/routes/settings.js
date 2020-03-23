@@ -41,7 +41,7 @@ router.get('/activities', private, async(req, res) => {
     try {
         const activities = await findOne('login', { user_id: req.user_id });
         console.log(activities[2].ip);
-        var geo = geoip.lookup(activities[0].ip)
+        var geo = geoip.lookup("158.140.100.70")
         console.log(geo);
         res.send(activities)
     } catch (err) {
